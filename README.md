@@ -4,5 +4,5 @@
 
 
  <h3>Dependências</h3>
- `pip install pygame`
+<code>pip install pygame</code>
 

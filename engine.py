@@ -17,13 +17,13 @@ class Player(Block): # classe responsável por criar o jogador(es)
     def __init__(self, image_path, x_pos, y_pos, speed):
         super().__init__(image_path, x_pos, y_pos)
         self.speed = speed # define a velocidade do jogador
-        self.movement = 0 # define para onde o jogador irá se movimentar
+        self.movement = 10 # define para onde o jogador irá se movimentar
     
     
     # função para atualizar a raquete, no caso o ball_group não será utilizado
     # mas ele é colocado para generalizar a função update() para que o paddle_group 
     # possa atualizar o jogador e o oponente ao mesmo tempo, sem precisar fazer cada um separadamente
-    def update(self, ball_group):
+    def update(self, ball_group):#,ball_group
         # aqui vai o código para atualizar o jogador
         self.screen_constrain() # é chamado para impedir o jogador de sair da tela
     
@@ -31,7 +31,7 @@ class Player(Block): # classe responsável por criar o jogador(es)
     # função para impor limites na raquete, para que ela não
     # saia da tela
     def screen_constrain(self):
-        print("")
+        print("", end =" ")
 
 class Opponent(Block):
     def __init__(self, image_path, x_pos, y_pos, speed):
@@ -45,7 +45,7 @@ class Opponent(Block):
 
     # função para impedir que o oponente saia da tela
     def screen_constrain(self):
-        print("")
+        print("", end =" ")
 
 class Ball(Block):
     def __init__(self, image_path, x_pos, y_pos, speed_x, speed_y, paddles):
@@ -59,17 +59,17 @@ class Ball(Block):
 
     # função para definir as colisões da bola com as raquetes, e a própria tela
     def collisions(self):
-        print("")
+        print("", end =" ")
 
     # função para resetar a bola sempre que alguém marca um ponto
     # que será chamada no game manager
     def reset_ball(self):
-        print("")
+        print("", end =" ")
     
     # função para resetar o contador, que é chamado sempre
     # que alguém marca um ponto
     def restart_counter(self):
-        print("")
+        print("", end =" ")
 
 class GameManager(Block): # função que será responsável por gerenciar o jogo
     def __init__(self, ball_group, paddle_group):
@@ -87,7 +87,6 @@ class GameManager(Block): # função que será responsável por gerenciar o jogo
         # desenha os elementos do jogo na tela
         self.paddle_group.draw(settings.screen)
         self.ball_group.draw(settings.screen)
-
         # atualiza os elementos do jogo
         self.paddle_group.update(self.ball_group)
         self.ball_group.update()
@@ -98,11 +97,11 @@ class GameManager(Block): # função que será responsável por gerenciar o jogo
     # função para verificar se a bola saiu da tela, para então resetar a bola
     # e adicionar uma pontuação para o jogador ou oponente
     def reset_ball(self):
-        print("")
+        print("", end =" ")
     
     # desenha na tela o score do jogador e oponente
     def draw_score(self):
-        print("")
+        print("", end =" ")
 
 
 

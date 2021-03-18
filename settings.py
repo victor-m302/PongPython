@@ -8,12 +8,15 @@ import random
 # é utilizado para impedir lag de audio
 pygame.mixer.pre_init(44100, -16, 2, 512)
 # inicializa o pygame
-pygame.init() 
+pygame.init()
 clock = pygame.time.Clock()
 
 # define algumas cores que serão utilizadas
 bg_color = pygame.Color("#0D0A0B")
 accent_color = pygame.Color("#E2FCEF")
+
+# cria fonte para score
+font = pygame.font.Font("freesansbold.ttf", 32)
 
 # define a altura e largura da janela
 screen_width, screen_height = 1024, 600

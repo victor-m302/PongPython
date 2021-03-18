@@ -54,8 +54,16 @@ class Ball(Block):
         self.speed_x = speed_x * random.choice((-1, 1))
         self.speed_y = speed_y * random.choice((-1, 1))
         self.paddles = paddles # armazena os dados das raquetes
-        self.active = False # variavel para saber quando a bola está se movimentando ou não
+        self.active = True # variavel para saber quando a bola está se movimentando ou não
         self.score_time = 0 # utilizada para pegar o tempo quando a bola resetar
+
+    # função para atualizar o movimento da bola
+    def update(self):
+        if self.active:
+            self.rect.x += self.speed_x
+            self.rect.y += self.speed_y
+        else:
+            self.restart_counter()
 
     # função para definir as colisões da bola com as raquetes, e a própria tela
     def collisions(self):
@@ -64,12 +72,41 @@ class Ball(Block):
     # função para resetar a bola sempre que alguém marca um ponto
     # que será chamada no game manager
     def reset_ball(self):
-        print("")
+        # Desativa a bola e guarda o tempo
+        self.active = False
+        self.score_time = pygame.time.get_ticks()
+        # Define a direção da bola
+        self.speed_x = self.speed_x * random.choice((-1, 1))
+        self.speed_y = self.speed_y * random.choice((-1, 1))
+        # Move a bola para o centro
+        self.rect.center = settings.screen_width/2, settings.screen_height/2
     
     # função para resetar o contador, que é chamado sempre
     # que alguém marca um ponto
     def restart_counter(self):
-        print("")
+        # Pega o tempo atual do jogo
+        current_time = pygame.time.get_ticks()
+
+        # Contador de 3 segundos para reiniciar o jogo
+        countdown_number = 3
+        if current_time - self.score_time <= 700:
+            countdown_number = 3
+        elif 700 < current_time - self.score_time <= 1400:
+            countdown_number = 2
+        elif 1400 < current_time - self.score_time <= 2100:
+            countdown_number = 1
+        elif current_time - self.score_time >= 2100:
+            self.active = True
+
+        # Desenhar tempo para reiniciar o jogo
+        time_counter = settings.font.render(str(countdown_number), True, settings.accent_color)
+        # Posição do texto
+        time_counter_rect = time_counter.get_rect(center = (settings.screen_width/2, settings.screen_height/2 - 50))
+        # Colocar este texto como preferencia na tela
+        pygame.draw.rect(settings.screen, settings.bg_color, time_counter_rect)
+        # Desenhar na tela o tempo
+        settings.screen.blit(time_counter, time_counter_rect)
+
 
 class GameManager(Block): # função que será responsável por gerenciar o jogo
     def __init__(self, ball_group, paddle_group):
@@ -98,11 +135,29 @@ class GameManager(Block): # função que será responsável por gerenciar o jogo
     # função para verificar se a bola saiu da tela, para então resetar a bola
     # e adicionar uma pontuação para o jogador ou oponente
     def reset_ball(self):
-        print("")
+        # Se a bola passar da direita da tela, ponto para o player
+        if self.ball_group.sprite.rect.right >= settings.screen_width:
+            self.opponent_score += 1
+            self.ball_group.sprite.reset_ball()
+
+        # Se a bola passar da esquerda da tela, ponto para o oponente 
+        if self.ball_group.sprite.rect.left <= 0:
+            self.player_score += 1
+            self.ball_group.sprite.reset_ball()
     
     # desenha na tela o score do jogador e oponente
     def draw_score(self):
         print("")
+        player_score = settings.font.render(str(self.player_score), True, settings.accent_color)
+        opponent_score = settings.font.render(str(self.opponent_score), True, settings.accent_color)
+
+        # posição dos score
+        player_score_rect = player_score.get_rect(midleft = (settings.screen_width / 2 + 40, settings.screen_height/2))
+        opponent_score_rect = opponent_score.get_rect(midright = (settings.screen_width/2 - 40, settings.screen_height/2))
+
+        # desenhar na tela os dois scores
+        settings.screen.blit(player_score, player_score_rect)
+        settings.screen.blit(opponent_score, opponent_score_rect)
 
 
 

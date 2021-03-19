@@ -22,7 +22,7 @@ def start_game():
     singleplayer_paddle_group = pygame.sprite.Group()
     singleplayer_paddle_group.add(player)
     singleplayer_paddle_group.add(opponent)
-
+    singleplayer_block_group = pygame.sprite.Group()
     # cria a bola do jogo, e também um sprite group para ela
     ball = engine.Ball("images/Ball.png", settings.screen_width/2,
             settings.screen_height/2, 4, 4, singleplayer_paddle_group, singleplayer_block_group)

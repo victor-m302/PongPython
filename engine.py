@@ -263,4 +263,46 @@ class GameManager(Block): # função que será responsável por gerenciar o jogo
         settings.screen.blit(opponent_score, opponent_score_rect)
 
 
+##bonus classes
 
+class Mouse(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface([1, 1])
+        self.image.fill((255, 255, 255))
+        self.rect = self.image.get_rect()
+    def update(self):
+        self.rect.center = pygame.mouse.get_pos()
+class Button(pygame.sprite.Sprite):
+    def __init__(self, base_images_path, number_of_images, pos_x, pos_y):
+        super().__init__()
+        self.sprites = []
+        for i in range(number_of_images):
+            image_path = base_images_path + str(i + 1) + ".png"
+            self.sprites.append(pygame.image.load(image_path))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+    def update(self):
+        self.current_sprite += 0.07
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+        self.image = self.sprites[int(self.current_sprite)]
+class Text(pygame.sprite.Sprite):
+    def __init__(self, base_images_path, number_of_images, sprite_velocity, pos_x, pos_y):
+        super().__init__()
+        self.sprites = []
+        self.sprite_velocity = sprite_velocity
+        for i in range(number_of_images):
+            image_path = base_images_path + str(i + 1) + ".png"
+            self.sprites.append(pygame.image.load(image_path))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+    def update(self):
+        self.current_sprite += self.sprite_velocity
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+        self.image = self.sprites[int(self.current_sprite)]

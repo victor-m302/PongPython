@@ -25,13 +25,17 @@ def start_game():
 
     # cria a bola do jogo, e também um sprite group para ela
     ball = engine.Ball("images/Ball.png", settings.screen_width/2,
-            settings.screen_height/2, 4, 4, singleplayer_paddle_group)
+            settings.screen_height/2, 4, 4, singleplayer_paddle_group, singleplayer_block_group)
     ball_group = pygame.sprite.GroupSingle()
     ball_group.add(ball)
 
     # cria o gerenciador do jogo para poder inicializa-lo no loop principal
-    singleplayer_game_manager = engine.GameManager(ball_group, singleplayer_paddle_group)
+    singleplayer_game_manager = engine.GameManager(ball_group, singleplayer_paddle_group, singleplayer_block_group)
 
+    '''
+    game_start_time = pygame.time.get_ticks()
+    previous_player_score = 0
+    '''
     # loop principal do jogo single_player
     while True:
         player.rect.y += player.speed

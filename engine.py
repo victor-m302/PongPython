@@ -4,12 +4,6 @@ import random
 import settings
 
 
-
-
-
-
-
-
 class Block(pygame.sprite.Sprite): # classe base para criar os sprites dos objetos do jogo
     def __init__(self, image_path, x_pos, y_pos):
         super().__init__()
@@ -61,6 +55,22 @@ class Opponent(Block):
         if self.rect.bottom > ball_group.sprite.rect.y:
             self.rect.y -= self.speed #percebe bola para baixo, se move para baixo
         self.screen_constrain() # é chamado para impedir que o oponente saia da tela 
+    # função para atualizar o oponente
+
+
+    def IA(self, ball_group): #paddle AI
+        if (self.rect.y < ball_group.sprite.rect.y and ball_group.sprite.rect.y < self.rect.y + self.rect.h):
+            self.speed = 0
+            self.rect.y += self.speed
+        elif (self.rect.y + (self.rect.h / 2) < ball_group.sprite.rect.y):
+            self.speed = 4
+        
+        elif (self.rect.y + (self.rect.h / 2) > ball_group.sprite.rect.y):
+            self.speed = -4
+        
+        self.rect.update()
+
+
 
     # função para impedir que o oponente saia da tela
     def screen_constrain(self):
@@ -83,6 +93,7 @@ class Ball(Block):
         self.blocks = blocks # armazena os dados de blocks
         self.active = True # variavel para saber quando a bola está se movimentando ou não
         self.score_time = 0 # utilizada para pegar o tempo quando a bola resetar
+        self.reset_paddle = False
 
     # função para atualizar o movimento da bola
     def update(self):
@@ -132,55 +143,38 @@ class Ball(Block):
             # agora que sabemos qual raquete está ocorrendo# a colisão, basta utilizar as condições a seguir# para mudar a posição da bola
             if abs(self.rect.right - collision_paddle.left) < 10 and self.speed_x > 0:
                 self.speed_x *= -1
+                print("x-1")
             if abs(self.rect.left - collision_paddle.right) < 10 and self.speed_x < 0:
                 self.speed_x *= -1
+                print("x-1")
             if abs(self.rect.top - collision_paddle.bottom) < 10 and self.speed_y < 0:
                 self.rect.top = collision_paddle.bottom
                 self.speed_y *= -1
+                print("y-1")
             if abs(self.rect.bottom - collision_paddle.top) < 10 and self.speed_y > 0:
                 self.rect.bottom = collision_paddle.top
                 self.speed_y *= -1# função para resetar a bola sempre que algúem marca# um ponto
+                print("y-1")
 
     ##########################
 
 
-
-    #################
-
     def reset_ball(self, start_game):
-            self.active = False  # a bola não esta movimentando
-            # define de forma aleatória a direção que irá iniciar
-            self.speed_x *= random.choice((-1, 1))
-            self.speed_y *= random.choice((-1, 1))
-            # pega o tempo quando a bola foi resetada
-            self.score_time = pygame.time.get_ticks()
-            # joga a bola para o centro da tela
-            self.rect.center = (settings.screen_width/2, settings.screen_height/2)
-            # ativa um som quando a bola sai pra fora da tela
-            if(not start_game):
-                pygame.mixer.Sound.play(settings.score_sound)
+        self.reset_paddle = True
+        self.active = False  # a bola não esta movimentando
+        # define de forma aleatória a direção que irá iniciar
+        self.speed_x *= random.choice((-1, 1))
+        self.speed_y *= random.choice((-1, 1))
+        # pega o tempo quando a bola foi resetada
+        self.score_time = pygame.time.get_ticks()
+        # joga a bola para o centro da tela
+        self.rect.center = (settings.screen_width/2, settings.screen_height/2)
+        # ativa um som quando a bola sai pra fora da tela
+        if(not start_game):
+            pygame.mixer.Sound.play(settings.score_sound)
         # função para resetar o contador, que é chamado sempre
         # que alguém marca algum ponto, ou no inicio do jogo
 
-
-################
-
-    # função para resetar a bola sempre que alguém marca um ponto
-    # que será chamada no game manager
-    def reset_ball(self, start_game):
-        # Desativa a bola e guarda o tempo
-        self.active = False
-        self.score_time = pygame.time.get_ticks()
-        # Define a direção da bola
-        self.speed_x = self.speed_x * 1 # mover na posição X
-        self.speed_y = self.speed_y * 0
-        #aleatório
-        #self.speed_x = self.speed_x * random.choice((-1, 1))
-        #self.speed_y = self.speed_y * random.choice((-1, 1))
-        # Move a bola para o centro
-        self.rect.center = settings.screen_width/2, settings.screen_height/2
-        if(not start_game):
-            pygame.mixer.Sound.play(settings.score_sound)
 
     # função para resetar o contador, que é chamado sempre
     # que alguém marca um ponto
@@ -209,6 +203,8 @@ class Ball(Block):
         settings.screen.blit(time_counter, time_counter_rect)
 
 
+
+
 class GameManager(Block): # função que será responsável por gerenciar o jogo
     def __init__(self, ball_group, paddle_group, block_group):
         self.player_score = 0 # pontuação do jogador
@@ -231,6 +227,7 @@ class GameManager(Block): # função que será responsável por gerenciar o jogo
         # atualiza os elementos do jogo
         self.paddle_group.update(self.ball_group)
         self.ball_group.update()
+        self.block_group.update()
         self.reset_ball()
         self.draw_score()
 

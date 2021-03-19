@@ -4,6 +4,22 @@ import random
 import engine
 import settings
 
+def IA(opponent, ball): #paddle AI
+    #começo da raquete: y
+    #fim da raquete: y+h
+    #entre a raquete
+    if((opponent.rect.y + opponent.rect.h)>= ball.sprite.rect.y) and (opponent.rect.y <= ball.sprite.rect.y):
+        print(False)
+        opponent.speed = 0
+    elif(opponent.rect.y >= ball.sprite.rect.y):
+        print(True)
+        opponent.rect.y += -6
+
+    elif((opponent.rect.y + opponent.rect.h)<= ball.sprite.rect.y):
+        #print(True)
+        opponent.speed = 6
+    
+
 # define o loop principal do jogo single player
 def start_game():
     xP = 20
@@ -36,6 +52,78 @@ def start_game():
     game_start_time = pygame.time.get_ticks()
     previous_player_score = 0
     '''
+
+    while True:
+        opponent.rect.y += opponent.speed
+        player.rect.y += player.speed
+        if (ball.reset_paddle):
+            opponent.rect.y = settings.screen_height/2 - 70
+            player.rect.y = settings.screen_height/2 - 70
+            opponent.speed = 0
+            ball.reset_paddle = False
+        IA(opponent, ball_group)
+        events = pygame.event.get()
+        for event in events:
+            if(event.type == pygame.QUIT): # sai do jogo se clicar no X
+                pygame.quit()
+                quit()
+            #process input player
+            if(event.type == pygame.KEYDOWN):
+                if(event.key == pygame.K_LEFT):
+                    player.speed = -5
+                elif(event.key == pygame.K_RIGHT):
+                    player.speed = 5    
+                else:
+                    continue
+            if(event.type == pygame.KEYUP):
+                if(event.key == pygame.K_LEFT):
+                    player.speed = 0
+                elif(event.key == pygame.K_RIGHT):
+                    player.speed = 0
+                else:
+                    continue
+
+
+
+
+
+        # Desenha a tela de fundo
+        settings.screen.fill(settings.bg_color)
+        # desenha a linha no meio da tela
+        pygame.draw.rect(settings.screen, settings.accent_color, settings.middle_strip)
+
+        # roda o jogo single player
+        singleplayer_game_manager.run_game()
+
+        # atualiza todo o conteúdo da tela
+        pygame.display.flip()
+        # define a velocidade do jogo
+        settings.clock.tick(120)
+
+
+'''
+while true:
+            opponent.rect.y += opponent.speed
+
+            ########
+                #process input opponent
+                elif(event.key == pygame.K_a):
+                    opponent.speed = 5
+                    print("burt reynolds")
+                elif(event.key == pygame.K_d):
+                    opponent.speed = -5    
+
+                #process input opponent
+                elif(event.key == pygame.K_a):
+                    opponent.speed = 0
+                elif(event.key == pygame.K_d):
+                    opponent.speed = 0
+'''
+
+
+'''
+#original
+
     # loop principal do jogo single_player
     while True:
         player.rect.y += player.speed
@@ -59,23 +147,34 @@ def start_game():
                     player.speed = 0
                 else:
                     continue
-        # Desenha a tela de fundo
-        settings.screen.fill(settings.bg_color)
-        # desenha a linha no meio da tela
-        pygame.draw.rect(settings.screen, settings.accent_color, settings.middle_strip)
 
-        # roda o jogo single player
-        singleplayer_game_manager.run_game()
+#mod
 
-        # atualiza todo o conteúdo da tela
-        pygame.display.flip()
-        # define a velocidade do jogo
-        settings.clock.tick(120)
 
-        '''        
-        WHILE tRUE: ...
+while True:
+        player.rect.y += player.speed
         opponent.rect.y += opponent.speed
-        ...
+        events = pygame.event.get()
+        for event in events:
+            if(event.type == pygame.QUIT): # sai do jogo se clicar no X
+                pygame.quit()
+                quit()
+            #process input player
+            if(event.type == pygame.KEYDOWN):
+                if(event.key == pygame.K_LEFT):
+                    player.speed = -5
+                elif(event.key == pygame.K_RIGHT):
+                    player.speed = 5
+                else:
+                    continue
+            if(event.type == pygame.KEYUP):
+                if(event.key == pygame.K_LEFT):
+                    player.speed = 0
+                elif(event.key == pygame.K_RIGHT):
+                    player.speed = 0
+                else:
+                    continue
+
         #process input opponent
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_a):

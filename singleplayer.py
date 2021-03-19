@@ -6,8 +6,6 @@ import settings
 
 # define o loop principal do jogo single player
 def start_game():
-
-
     xP = 20
     yP = settings.screen_height/2
 

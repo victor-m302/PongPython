@@ -16,7 +16,7 @@ bg_color = pygame.Color("#0D0A0B")
 accent_color = pygame.Color("#E2FCEF")
 
 # cria fonte para score
-font = pygame.font.Font("freesansbold.ttf", 32)
+font = pygame.font.Font("fonts/RetroGaming.ttf", 32)
 
 # define a altura e largura da janela
 screen_width, screen_height = 1024, 600
@@ -24,6 +24,21 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # define o titulo da janela
 pygame.display.set_caption("Pong")
+
+
+
+
+bg_color = pygame.Color("#040F0F")  # bg color
+accent_color = (253, 255, 252)  # cor das letras e linha no meio
+basic_font = pygame.font.Font("fonts/RetroGaming.ttf", 32)  # carrega a fonte
+hit_sound = pygame.mixer.Sound("sounds/pong.wav")  
+score_sound = pygame.mixer.Sound("sounds/score.wav")  
+destroy_sound = pygame.mixer.Sound("sounds/destroy.wav")  
+button_sound = pygame.mixer.Sound("sounds/button.wav") 
+
+
+
+
 
 # cria uma linha para ser desenhada no meio da tela
 middle_strip = pygame.Rect(screen_width/2 - 2, 0, 4, screen_height) 

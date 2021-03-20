@@ -4,6 +4,7 @@ import random
 import sys
 import singleplayer
 import multiplayer
+import instructions
 
 
 pygame.init()
@@ -24,20 +25,41 @@ clock = pygame.time.Clock()
 
 bgImg = pygame.image.load('images/bg.jpg')
 
-carImg = pygame.image.load('racecar.png')
+bgImg2 = pygame.image.load('images/instructions.png')
+
+keys1 = pygame.image.load('images/player1.png')
+keys2 = pygame.image.load('images/player2.png')
  
+def bgImage(x,y,scaleX,scaleY):
+    bgScaled = pygame.transform.scale(bgImg, (scaleX, scaleY))
+    gameDisplay.blit(bgScaled,(x,y))
+
+def keysA(x,y):
+    #bgScaled = pygame.transform.scale(bgImg, (scaleX, scaleY))
+    gameDisplay.blit(keys1,(x,y))
+
+def keysB(x,y):
+    #bgScaled = pygame.transform.scale(bgImg, (scaleX, scaleY))
+    gameDisplay.blit(keys2,(x,y)) 
+
+
 
 def car(x,y):
     gameDisplay.blit(carImg,(x,y))
  
-def bgImage(x,y,scaleX,scaleY):
-    bgScaled = pygame.transform.scale(bgImg, (scaleX, scaleY))
+def bgImage2(x,y,scaleX,scaleY):
+    bgScaled = pygame.transform.scale(bgImg2, (scaleX, scaleY))
     gameDisplay.blit(bgScaled,(x,y))
 
 def text_objects(text, font):
     textSurface = font.render(text, True, white)
     return textSurface, textSurface.get_rect()
  
+
+def text_objects1(text, font, color):
+    textSurface = font.render(text, True, color)
+    return textSurface, textSurface.get_rect()
+
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf',115)
     TextSurf, TextRect = text_objects(text, largeText)
@@ -56,7 +78,8 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
 
         if click[0] == 1 and action != None:
-            action()         
+            action()
+            return True       
     else:
         pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
 
@@ -66,7 +89,6 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     gameDisplay.blit(textSurf, textRect)
 
 def game_intro():
-
     intro = True
     a = 2110
     b = 600
@@ -120,7 +142,47 @@ def nekoPlayer():
     crash()
 
 def instrucao():
-    print("instrução")
+    loop = True
+    a = 800
+    b = 600
+    x = 0
+    y = 0
+    while loop:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                print("permit")
+                pygame.quit()
+                quit()
+                
+        gameDisplay.fill(white)
+        bgImage2(x, y, a, b)
+        keysA(120, 250)
+        keysB(500, 250)
+        #print(x)
+
+        largeText = pygame.font.Font("fonts/VampireWars.ttf", 50)
+        TextSurf, TextRect = text_objects1("Pong - Instruções", largeText, black)
+        TextRect.center = ((display_width/2),(100))
+        gameDisplay.blit(TextSurf, TextRect)
+
+
+        subTitle = pygame.font.Font("fonts/Gazelle.ttf", 30)
+        TextSurf, TextRect = text_objects1("Jogador 1", subTitle, black)
+        TextRect.center = (250,(200))
+        gameDisplay.blit(TextSurf, TextRect)
+
+
+        subTitle1 = pygame.font.Font("fonts/Gazelle.ttf", 30)
+        TextSurf, TextRect = text_objects1("Jogador 2", subTitle1, black)
+        TextRect.center = (600,(200))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        button("Voltar",275,490,250,60,purple,bright_purple,game_intro)
+
+        pygame.display.update()
+        clock.tick(15)
+
 
 
 def quitgame():

@@ -2,9 +2,8 @@ import pygame
 import sys
 import random
 import settings
-import singleplayer
-import multiplayer
+import menu_1
 
 #singleplayer.start_game()
 
-multiplayer.start_game()
+menu_1.game_intro()

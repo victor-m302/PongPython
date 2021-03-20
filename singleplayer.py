@@ -4,6 +4,8 @@ import random
 import engine
 import settings
 
+
+
 def IA(opponent, ball): #paddle AI
     #começo da raquete: y
     #fim da raquete: y+h

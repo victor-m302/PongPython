@@ -27,17 +27,20 @@ pygame.display.set_caption("Pong")
 
 
 
-
-bg_color = pygame.Color("#040F0F")  # bg color
+bg_color_mult = pygame.Color("#8b1851")  # bg color
+bg_color = pygame.Color("#29398e")  # bg color
 accent_color = (253, 255, 252)  # cor das letras e linha no meio
 basic_font = pygame.font.Font("fonts/RetroGaming.ttf", 32)  # carrega a fonte
+
 hit_sound = pygame.mixer.Sound("sounds/pong.wav")  
 score_sound = pygame.mixer.Sound("sounds/score.wav")  
 destroy_sound = pygame.mixer.Sound("sounds/destroy.wav")  
 button_sound = pygame.mixer.Sound("sounds/button.wav") 
 
 
-
+menu_sound = pygame.mixer.Sound("sounds/flight.mp3") 
+singleP_sound = pygame.mixer.Sound("sounds/make_a_run.mp3") 
+multiP_sound = pygame.mixer.Sound("sounds/as_midnight.mp3")
 
 
 # cria uma linha para ser desenhada no meio da tela

@@ -94,7 +94,7 @@ def start_game():
 
 
         # Desenha a tela de fundo
-        settings.screen.fill(settings.bg_color)
+        settings.screen.fill(settings.bg_color_mult)
         # desenha a linha no meio da tela
         pygame.draw.rect(settings.screen, settings.accent_color, settings.middle_strip)
 

@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 import sys
+import settings
 import singleplayer
 import multiplayer
 import instructions
@@ -41,7 +42,6 @@ def keysA(x,y):
 def keysB(x,y):
     #bgScaled = pygame.transform.scale(bgImg, (scaleX, scaleY))
     gameDisplay.blit(keys2,(x,y)) 
-
 
 
 def car(x,y):
@@ -89,6 +89,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     gameDisplay.blit(textSurf, textRect)
 
 def game_intro():
+    pygame.mixer.Sound.play(settings.menu_sound)
     intro = True
     a = 2110
     b = 600
@@ -131,10 +132,14 @@ def game_intro():
 
 
 def single_player():
+    pygame.mixer.Sound.stop(settings.menu_sound)
+    pygame.mixer.Sound.play(settings.singleP_sound)
     gameDisplay = pygame.display.set_mode((1024,display_height))
     singleplayer.start_game()
 
 def multi_player():
+    pygame.mixer.Sound.stop(settings.menu_sound)
+    pygame.mixer.Sound.play(settings.multiP_sound)
     gameDisplay = pygame.display.set_mode((1024,display_height))
     multiplayer.start_game()
 
